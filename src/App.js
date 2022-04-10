@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Header from "./Components/Header";
+import Home from "./Components/Home";
+import Page from "./Components/Page";
+import "./CSS/normalize.css";
+import "./CSS/common.css";
+import "./CSS/App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { add, addByNum, sub } from "./Store/useCounter";
+
 
 function App() {
+  const {count} = useSelector(state=>state.counter)
+  const dispatch = useDispatch()
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+        <h1>{count}</h1>
+        <button className="btn" onClick={()=>dispatch(add())}>+</button>
+        <button className="btn" onClick={()=>dispatch(sub())}>-</button>
+        <button className="btn" onClick={()=>dispatch(addByNum(25))}>Add By 25</button>
+      <Routes>
+        <Route path="/" element={<Home />} exact />
+        <Route path="/page/:id" element={<Page />} />
+      </Routes>
     </div>
   );
 }
